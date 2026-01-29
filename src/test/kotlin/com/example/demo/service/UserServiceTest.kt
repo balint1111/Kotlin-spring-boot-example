@@ -5,6 +5,7 @@ import com.example.demo.repository.UserRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -19,6 +20,12 @@ class UserServiceTest {
 
     @InjectMocks
     private lateinit var userService: UserService
+
+    // Helper function for Kotlin nullability with Mockito
+    private fun <T> anyObject(): T {
+        ArgumentMatchers.any<T>()
+        return null as T
+    }
 
     @Test
     fun `getAllUsers should return list of users`() {
@@ -74,7 +81,7 @@ class UserServiceTest {
         val user = User(null, "John Updated", "john@example.com")
         val updatedUser = User(1L, "John Updated", "john@example.com")
         `when`(userRepository.existsById(1L)).thenReturn(true)
-        `when`(userRepository.save(any(User::class.java))).thenReturn(updatedUser)
+        `when`(userRepository.save(anyObject())).thenReturn(updatedUser)
 
         val result = userService.updateUser(1L, user)
 
@@ -92,7 +99,7 @@ class UserServiceTest {
 
         assertNull(result)
         verify(userRepository, times(1)).existsById(1L)
-        verify(userRepository, never()).save(any(User::class.java))
+        verify(userRepository, never()).save(anyObject())
     }
 
     @Test

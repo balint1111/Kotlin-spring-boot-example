@@ -4,6 +4,7 @@ import com.example.demo.model.User
 import com.example.demo.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -24,6 +25,12 @@ class UserControllerTest {
 
     @Autowired
     private lateinit var objectMapper: ObjectMapper
+
+    // Helper function for Kotlin nullability with Mockito
+    private fun <T> anyObject(): T {
+        ArgumentMatchers.any<T>()
+        return null as T
+    }
 
     @Test
     fun `getAllUsers should return list of users`() {
@@ -62,7 +69,7 @@ class UserControllerTest {
     fun `createUser should create and return user`() {
         val user = User(null, "John Doe", "john@example.com")
         val savedUser = User(1L, "John Doe", "john@example.com")
-        `when`(userService.createUser(any(User::class.java))).thenReturn(savedUser)
+        `when`(userService.createUser(anyObject())).thenReturn(savedUser)
 
         mockMvc.perform(
             post("/api/users")
@@ -78,7 +85,7 @@ class UserControllerTest {
     fun `updateUser should update and return user when found`() {
         val user = User(null, "John Updated", "john@example.com")
         val updatedUser = User(1L, "John Updated", "john@example.com")
-        `when`(userService.updateUser(eq(1L), any(User::class.java))).thenReturn(updatedUser)
+        `when`(userService.updateUser(eq(1L), anyObject())).thenReturn(updatedUser)
 
         mockMvc.perform(
             put("/api/users/1")
@@ -92,7 +99,7 @@ class UserControllerTest {
     @Test
     fun `updateUser should return 404 when not found`() {
         val user = User(null, "John Updated", "john@example.com")
-        `when`(userService.updateUser(eq(1L), any(User::class.java))).thenReturn(null)
+        `when`(userService.updateUser(eq(1L), anyObject())).thenReturn(null)
 
         mockMvc.perform(
             put("/api/users/1")
