@@ -4,7 +4,7 @@ A RESTful API example built with Kotlin and Spring Boot.
 
 ## Features
 
-- **Spring Boot 3.2.0** with Kotlin
+- **Spring Boot 4.0.0** with Kotlin
 - **RESTful API** with CRUD operations
 - **JPA/Hibernate** for data persistence
 - **H2 In-Memory Database** for development
@@ -130,7 +130,7 @@ Connection details:
 ## Technology Stack
 
 - **Kotlin** 1.9.20
-- **Spring Boot** 3.2.0
+- **Spring Boot** 4.0.0
 - **Spring Data JPA**
 - **H2 Database**
 - **JUnit 5**
